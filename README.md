@@ -1,0 +1,1 @@
+Dropwizard Authenticator Ldap (Yammer)
