@@ -10,8 +10,8 @@
         <connection>scm:git:git://github.com/yammer/dropwizard-authenticator-ldap.git</connection>
         <developerConnection>scm:git:git@github.com:yammer/dropwizard-authenticator-ldap.git</developerConnection>
         <url>http://github.com/yammer/dropwizard-authenticator-ldap/</url>
-      <tag>HEAD</tag>
-  </scm>
+      <tag>v0.0.1</tag>
+    </scm>
 
     <issueManagement>
         <system>github</system>
