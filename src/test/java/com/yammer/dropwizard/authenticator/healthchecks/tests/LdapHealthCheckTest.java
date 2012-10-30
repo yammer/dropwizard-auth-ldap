@@ -6,8 +6,8 @@ import com.yammer.dropwizard.authenticator.healthchecks.LdapHealthCheck;
 import com.yammer.metrics.core.HealthCheck;
 import org.junit.Test;
 
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertThat;
 
 public class LdapHealthCheckTest {

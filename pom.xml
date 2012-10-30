@@ -19,8 +19,7 @@
     </issueManagement>
 
     <properties>
-        <dropwizard.version>0.5.1</dropwizard.version>
-        <metrics.version>3.0.0-SNAPSHOT</metrics.version>
+        <dropwizard.version>0.6.0-SNAPSHOT</dropwizard.version>
     </properties>
 
     <developers>
@@ -52,11 +51,6 @@
             <artifactId>dropwizard-testing</artifactId>
             <version>${dropwizard.version}</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.yammer.metrics</groupId>
-            <artifactId>metrics-core</artifactId>
-            <version>${metrics.version}</version>
         </dependency>
     </dependencies>
 
