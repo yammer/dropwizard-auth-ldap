@@ -20,7 +20,7 @@
 
     <properties>
         <dropwizard.version>0.5.1</dropwizard.version>
-        <metrics.version>2.1.3</metrics.version>
+        <metrics.version>3.0.0-SNAPSHOT</metrics.version>
     </properties>
 
     <developers>

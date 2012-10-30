@@ -20,7 +20,7 @@ public class LdapAuthenticator {
     private final HostAndPort hostAndPort;
     private static final int DEFAULT_LDAP_SSL_PORT = 636;
     private static final Log LOG = Log.forClass(LdapAuthenticator.class);
-    private static final Timer LDAP_AUTHENTICATION_TIMER = Metrics.newTimer(LdapAuthenticator.class, "authenticate");
+    private static final Timer LDAP_AUTHENTICATION_TIMER = Metrics.defaultRegistry().newTimer(LdapAuthenticator.class, "authenticate");
 
     public LdapAuthenticator(HostAndPort hostAndPort) {
         this.hostAndPort = checkNotNull(hostAndPort, "hostAndPort cannot be null");
