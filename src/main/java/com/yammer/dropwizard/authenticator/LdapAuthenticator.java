@@ -2,10 +2,11 @@ package com.yammer.dropwizard.authenticator;
 
 import com.google.common.net.HostAndPort;
 import com.yammer.dropwizard.auth.basic.BasicCredentials;
-import com.yammer.dropwizard.logging.Log;
 import com.yammer.metrics.Metrics;
 import com.yammer.metrics.core.Timer;
 import com.yammer.metrics.core.TimerContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.naming.AuthenticationException;
 import javax.naming.CommunicationException;
@@ -19,7 +20,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class LdapAuthenticator {
     private final HostAndPort hostAndPort;
     private static final int DEFAULT_LDAP_SSL_PORT = 636;
-    private static final Log LOG = Log.forClass(LdapAuthenticator.class);
+    private static final Logger LOG = LoggerFactory.getLogger(LdapAuthenticator.class);
+
     private static final Timer LDAP_AUTHENTICATION_TIMER = Metrics.defaultRegistry().newTimer(LdapAuthenticator.class, "authenticate");
 
     public LdapAuthenticator(HostAndPort hostAndPort) {
