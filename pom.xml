@@ -19,7 +19,7 @@
     </issueManagement>
 
     <properties>
-        <dropwizard.version>0.6.0-SNAPSHOT</dropwizard.version>
+        <dropwizard.version>0.6.0</dropwizard.version>
     </properties>
 
     <developers>
