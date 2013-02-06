@@ -4,13 +4,13 @@
 
     <groupId>com.yammer.dropwizard</groupId>
     <artifactId>dropwizard-authenticator-ldap</artifactId>
-    <version>0.0.6</version>
+    <version>0.0.7-SNAPSHOT</version>
 
     <scm>
         <connection>scm:git:git://github.com/yammer/dropwizard-authenticator-ldap.git</connection>
         <developerConnection>scm:git:git@github.com:yammer/dropwizard-authenticator-ldap.git</developerConnection>
         <url>http://github.com/yammer/dropwizard-authenticator-ldap/</url>
-      <tag>v0.0.6</tag>
+      <tag>HEAD</tag>
   </scm>
 
     <issueManagement>
