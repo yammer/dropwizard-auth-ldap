@@ -12,7 +12,7 @@ import static org.junit.Assert.assertThat;
 
 public class LdapHealthCheckTest {
     private final LdapHealthCheck ldapHealthCheck = new LdapHealthCheck(
-            new LdapAuthenticator(HostAndPort.fromParts("ns-001.sjc1.yammer.com", 636)));
+            new LdapAuthenticator(HostAndPort.fromParts("ldap.sjc1.yammer.com", 636)));
 
     @Test
     public void healthy() throws Exception {

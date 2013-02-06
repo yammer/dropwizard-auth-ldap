@@ -10,7 +10,7 @@ import static org.junit.Assert.assertThat;
 
 public class LdapAuthenticatorTest {
     private final LdapAuthenticator ldapAuthenticator = new LdapAuthenticator(
-            HostAndPort.fromParts("ns-001.sjc1.yammer.com", 636));
+            HostAndPort.fromParts("ldap.sjc1.yammer.com", 636));
 
     @Test
     public void badUser() {
