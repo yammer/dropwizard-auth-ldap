@@ -4,12 +4,14 @@ import com.google.common.net.HostAndPort;
 import com.yammer.dropwizard.authenticator.LdapAuthenticator;
 import com.yammer.dropwizard.authenticator.healthchecks.LdapHealthCheck;
 import com.yammer.metrics.core.HealthCheck;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertThat;
 
+@Ignore("this test is not self contained and it needs external infrastructure")
 public class LdapHealthCheckTest {
     private final LdapHealthCheck ldapHealthCheck = new LdapHealthCheck(
             new LdapAuthenticator(HostAndPort.fromParts("ldap.sjc1.yammer.com", 636)));

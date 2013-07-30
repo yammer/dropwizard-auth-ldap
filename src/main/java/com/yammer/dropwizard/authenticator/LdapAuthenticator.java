@@ -18,11 +18,10 @@ import java.util.Hashtable;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class LdapAuthenticator {
-    private final HostAndPort hostAndPort;
     private static final int DEFAULT_LDAP_SSL_PORT = 636;
     private static final Logger LOG = LoggerFactory.getLogger(LdapAuthenticator.class);
-
     private static final Timer LDAP_AUTHENTICATION_TIMER = Metrics.defaultRegistry().newTimer(LdapAuthenticator.class, "authenticate");
+    private final HostAndPort hostAndPort;
 
     public LdapAuthenticator(HostAndPort hostAndPort) {
         this.hostAndPort = checkNotNull(hostAndPort, "hostAndPort cannot be null");
@@ -30,8 +29,8 @@ public class LdapAuthenticator {
 
     private String providerUrl() {
         return String.format("ldaps://%s:%d/",
-            hostAndPort.getHostText(),
-            hostAndPort.getPortOrDefault(DEFAULT_LDAP_SSL_PORT));
+                hostAndPort.getHostText(),
+                hostAndPort.getPortOrDefault(DEFAULT_LDAP_SSL_PORT));
     }
 
     public boolean canAuthenticate() {
@@ -50,7 +49,7 @@ public class LdapAuthenticator {
         return false;
     }
 
-    public boolean authenticate(BasicCredentials basicCredentials) {
+    public boolean authenticate(BasicCredentials basicCredentials) throws com.yammer.dropwizard.auth.AuthenticationException {
         final TimerContext ldapAuthenticationTimer = LDAP_AUTHENTICATION_TIMER.time();
         try {
             final Hashtable<String, String> env = new Hashtable<>();
@@ -62,10 +61,11 @@ public class LdapAuthenticator {
             try {
                 new InitialDirContext(env).close();
                 return true;
-            } catch (AuthenticationException err) {
-                LOG.debug(basicCredentials.getUsername() + " failed to authenticate", err);
+            } catch (AuthenticationException ae) {
+                LOG.warn(String.format("%s failed to authenticate. "), basicCredentials.getUsername(), ae);
             } catch (NamingException err) {
-                LOG.warn("Authentication failure", err);
+                throw new com.yammer.dropwizard.auth.AuthenticationException(String.format("LDAP Authentication failure (username: %s)",
+                        basicCredentials.getUsername()), err);
             }
             return false;
         } finally {
