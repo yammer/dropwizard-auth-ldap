@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.yammer.coreservices</groupId>
         <artifactId>coreservices-parent</artifactId>
-        <version>1.0.13</version>
+        <version>1.0.14</version>
     </parent>
 
     <groupId>com.yammer.dropwizard</groupId>
