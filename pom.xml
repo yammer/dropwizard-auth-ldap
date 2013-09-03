@@ -13,15 +13,15 @@
     <version>0.0.9-SNAPSHOT</version>
 
     <scm>
-        <connection>scm:git:git://github.com/yammer/dropwizard-authenticator-ldap.git</connection>
-        <developerConnection>scm:git:git@github.com:yammer/dropwizard-authenticator-ldap.git</developerConnection>
-        <url>http://github.com/yammer/dropwizard-authenticator-ldap/</url>
+        <connection>scm:git:git://github.int.yammer.com/yammer/dropwizard-authenticator-ldap.git</connection>
+        <developerConnection>scm:git:git@github.int.yammer.com:yammer/dropwizard-authenticator-ldap.git</developerConnection>
+        <url>http://github.int.yammer.com/yammer/dropwizard-authenticator-ldap/</url>
         <tag>HEAD</tag>
     </scm>
 
     <issueManagement>
         <system>github</system>
-        <url>http://github.com/yammer/dropwizard-authenticator-ldap/issues</url>
+        <url>http://github.int.yammer.com/yammer/dropwizard-authenticator-ldap/issues</url>
     </issueManagement>
 
     <developers>
