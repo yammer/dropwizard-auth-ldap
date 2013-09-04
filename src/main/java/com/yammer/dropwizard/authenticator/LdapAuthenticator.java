@@ -62,7 +62,7 @@ public class LdapAuthenticator {
                 new InitialDirContext(env).close();
                 return true;
             } catch (AuthenticationException ae) {
-                LOG.warn(String.format("%s failed to authenticate. "), basicCredentials.getUsername(), ae);
+                LOG.warn("{} failed to authenticate. {}", basicCredentials.getUsername(), ae);
             } catch (NamingException err) {
                 throw new com.yammer.dropwizard.auth.AuthenticationException(String.format("LDAP Authentication failure (username: %s)",
                         basicCredentials.getUsername()), err);
