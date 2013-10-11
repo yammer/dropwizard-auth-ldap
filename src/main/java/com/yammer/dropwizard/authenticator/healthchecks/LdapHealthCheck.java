@@ -1,5 +1,7 @@
 package com.yammer.dropwizard.authenticator.healthchecks;
 
+import com.yammer.dropwizard.auth.AuthenticationException;
+import com.yammer.dropwizard.auth.basic.BasicCredentials;
 import com.yammer.dropwizard.authenticator.LdapAuthenticator;
 import com.yammer.metrics.core.HealthCheck;
 
@@ -14,8 +16,8 @@ public class LdapHealthCheck extends HealthCheck {
     }
 
     @Override
-    public Result check() {
-        if (ldapAuthenticator.canAuthenticate()) {
+    public Result check() throws AuthenticationException {
+        if (ldapAuthenticator.authenticate(new BasicCredentials("", ""))) {
             return Result.healthy();
         } else {
             return Result.unhealthy("Cannot contact authentication service");
