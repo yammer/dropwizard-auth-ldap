@@ -2,6 +2,8 @@ package com.yammer.dropwizard.authenticator.healthchecks.tests;
 
 import com.google.common.net.HostAndPort;
 import com.yammer.dropwizard.authenticator.LdapAuthenticator;
+import com.yammer.dropwizard.authenticator.LdapCanAuthenticate;
+import com.yammer.dropwizard.authenticator.ResourceAuthenticator;
 import com.yammer.dropwizard.authenticator.healthchecks.LdapHealthCheck;
 import com.yammer.metrics.core.HealthCheck;
 import org.junit.Ignore;
@@ -14,7 +16,7 @@ import static org.junit.Assert.assertThat;
 @Ignore("this test is not self contained and it needs external infrastructure")
 public class LdapHealthCheckTest {
     private final LdapHealthCheck ldapHealthCheck = new LdapHealthCheck(
-            new LdapAuthenticator(HostAndPort.fromParts("ldap.sjc1.yammer.com", 636)));
+            new ResourceAuthenticator(new LdapCanAuthenticate(HostAndPort.fromParts("ldap.sjc1.yammer.com", 636))));
 
     @Test
     public void healthy() throws Exception {
@@ -24,7 +26,7 @@ public class LdapHealthCheckTest {
     @Test
     public void unhealthy() throws Exception {
         final LdapAuthenticator badLdapAuthenticator = new LdapAuthenticator(HostAndPort.fromParts("badHost", 1234));
-        final LdapHealthCheck badHealthCheck = new LdapHealthCheck(badLdapAuthenticator);
+        final LdapHealthCheck badHealthCheck = new LdapHealthCheck(new ResourceAuthenticator(badLdapAuthenticator));
         assertThat(badHealthCheck.check(), not(HealthCheck.Result.healthy()));
     }
 }
