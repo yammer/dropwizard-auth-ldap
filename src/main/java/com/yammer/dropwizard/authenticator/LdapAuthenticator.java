@@ -18,7 +18,7 @@ import java.util.Hashtable;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class LdapAuthenticator {
-    private static final int DEFAULT_LDAP_SSL_PORT = 636;
+    protected static final int DEFAULT_LDAP_SSL_PORT = 636;
     private static final Logger LOG = LoggerFactory.getLogger(LdapAuthenticator.class);
     private static final Timer LDAP_AUTHENTICATION_TIMER = Metrics.defaultRegistry().newTimer(LdapAuthenticator.class, "authenticate");
     private final HostAndPort hostAndPort;
