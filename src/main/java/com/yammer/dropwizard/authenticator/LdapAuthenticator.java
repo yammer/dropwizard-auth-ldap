@@ -62,6 +62,7 @@ public class LdapAuthenticator {
         env.put(Context.PROVIDER_URL, configuration.getUri().toString());
         env.put("com.sun.jndi.ldap.connect.timeout", String.valueOf(configuration.getConnectTimeout().toMilliseconds()));
         env.put("com.sun.jndi.ldap.read.timeout", String.valueOf(configuration.getReadTimeout().toMilliseconds()));
+        env.put("com.sun.jndi.ldap.connect.pool", "true");
         return env;
     }
 }
