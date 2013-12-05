@@ -22,21 +22,21 @@ You can find more information about dropwizard authentication at http://www.drop
 
 Here is an example how to add `LdapAuthenticator` using a `CachingAuthenticator` to your service:
 
-            @Override
-            public void run(DeploymacyConfiguration configuration, Environment environment) throws Exception {
-                LdapConfiguration ldapConfiguration = configuration.getLdapConfiguration();
-                Authenticator<BasicCredentials, BasicCredentials> ldapAuthenticator =
-                    CachingAuthenticator.wrap(
-                        new ResourceAuthenticator(new LdapAuthenticator(ldapConfiguration)),
-                        ldapConfiguration.getCachePolicy());
+        @Override
+        public void run(Configuration configuration, Environment environment) throws Exception {
+            LdapConfiguration ldapConfiguration = configuration.getLdapConfiguration();
+            Authenticator<BasicCredentials, BasicCredentials> ldapAuthenticator =
+                CachingAuthenticator.wrap(
+                    new ResourceAuthenticator(new LdapAuthenticator(ldapConfiguration)),
+                    ldapConfiguration.getCachePolicy());
 
-                environment.addProvider(new BasicAuthProvider<>(ldapAuthenticator, "realm"));
-            }
+            environment.addProvider(new BasicAuthProvider<>(ldapAuthenticator, "realm"));
+        }
 
 Configuration
 =============
-            uri: "ldaps://myldap.com:636"
-            cachePolicy: maximumSize=10000, expireAfterAccess=10m
-            securityPrincipal: "cn=%s,dc=yourcompany,dc=com";
-            connectTimeout: 500ms
-            readTimeout: 500ms
+        uri: "ldaps://myldap.com:636"
+        cachePolicy: maximumSize=10000, expireAfterAccess=10m
+        securityPrincipal: "cn=%s,dc=yourcompany,dc=com";
+        connectTimeout: 500ms
+        readTimeout: 500ms
