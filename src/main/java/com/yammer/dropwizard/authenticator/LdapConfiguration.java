@@ -13,7 +13,7 @@ public class LdapConfiguration {
     @Valid
     private URI uri = URI.create("ldaps://www.example.com:636");
     @NotNull @Valid
-    private CacheBuilderSpec cache = CacheBuilderSpec.disableCaching();
+    private CacheBuilderSpec cachePolicy = CacheBuilderSpec.disableCaching();
     @NotNull @NotEmpty
     private String securityPrincipal = "cn=%s";
     @NotNull @Valid
@@ -29,12 +29,12 @@ public class LdapConfiguration {
         this.uri = uri;
     }
 
-    public CacheBuilderSpec getCache() {
-        return cache;
+    public CacheBuilderSpec getCachePolicy() {
+        return cachePolicy;
     }
 
-    public void setCache(CacheBuilderSpec cache) {
-        this.cache = cache;
+    public void setCachePolicy(CacheBuilderSpec cachePolicy) {
+        this.cachePolicy = cachePolicy;
     }
 
     public String getSecurityPrincipal() {
