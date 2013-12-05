@@ -1,38 +1,41 @@
 package com.yammer.dropwizard.authenticator.tests;
 
-import com.google.common.net.HostAndPort;
 import com.yammer.dropwizard.auth.AuthenticationException;
 import com.yammer.dropwizard.auth.basic.BasicCredentials;
 import com.yammer.dropwizard.authenticator.LdapAuthenticator;
-import org.junit.Ignore;
+import com.yammer.dropwizard.authenticator.LdapConfiguration;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-@Ignore("this test is not self contained and it needs external infrastructure")
 public class LdapAuthenticatorTest {
-    private final LdapAuthenticator ldapAuthenticator = new LdapAuthenticator(
-            HostAndPort.fromParts("ldap.sjc1.yammer.com", 636));
+    private static LdapAuthenticator ldapAuthenticator;
 
-    @Test
+    @BeforeClass
+    public static void setup() throws Exception {
+        final LdapConfiguration configuration = new LdapConfiguration();
+        ldapAuthenticator = new LdapAuthenticator(configuration);
+    }
+
+    @Test(expected = AuthenticationException.class)
     public void badUser() throws AuthenticationException {
-        assertThat(ldapAuthenticator.authenticate(new BasicCredentials("yo", "dog")), is(false));
+        assertThat(ldapAuthenticator.authenticate(new BasicCredentials("user", "password")), is(false));
     }
 
-    @Test
+    @Test(expected = AuthenticationException.class)
     public void noPassword() throws AuthenticationException {
-        assertThat(ldapAuthenticator.authenticate(new BasicCredentials("yo", "")), is(false));
+        assertThat(ldapAuthenticator.authenticate(new BasicCredentials("user", "")), is(false));
     }
 
-    @Test
+    @Test(expected = AuthenticationException.class)
     public void noUser() throws AuthenticationException {
         assertThat(ldapAuthenticator.authenticate(new BasicCredentials("", "password")), is(false));
     }
 
-    @Test
+    @Test(expected = AuthenticationException.class)
     public void badServer() throws AuthenticationException {
-        final LdapAuthenticator badAuthenticator = new LdapAuthenticator(HostAndPort.fromParts("localhost", 1234));
-        assertThat(badAuthenticator.authenticate(new BasicCredentials("yo", "dog")), is(false));
+        assertThat(ldapAuthenticator.authenticate(new BasicCredentials("user", "password")), is(false));
     }
 }

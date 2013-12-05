@@ -2,12 +2,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>com.yammer.coreservices</groupId>
-        <artifactId>coreservices-parent</artifactId>
-        <version>1.0.14</version>
-    </parent>
-
     <groupId>com.yammer.dropwizard</groupId>
     <artifactId>dropwizard-authenticator-ldap</artifactId>
     <version>0.0.13-SNAPSHOT</version>
@@ -31,6 +25,10 @@
         </developer>
     </developers>
 
+    <properties>
+        <dropwizard.version>0.6.2</dropwizard.version>
+    </properties>
+
     <distributionManagement>
         <repository>
             <id>maven.int.yammer.com-releases</id>
@@ -42,46 +40,17 @@
         </snapshotRepository>
     </distributionManagement>
 
-    <repositories>
-        <repository>
-            <id>sonatype-nexus-snapshots</id>
-            <name>Sonatype Nexus Snapshots</name>
-            <url>http://oss.sonatype.org/content/repositories/snapshots</url>
-        </repository>
-        <repository>
-            <id>maven.int.yammer.com</id>
-            <name>Yammer Maven</name>
-            <url>http://maven.int.yammer.com/nexus/content/repositories/releases/</url>
-        </repository>
-    </repositories>
-
     <dependencies>
         <dependency>
             <groupId>com.yammer.dropwizard</groupId>
             <artifactId>dropwizard-auth</artifactId>
-            <version>[${dropwizard.version}]</version>
+            <version>${dropwizard.version}</version>
         </dependency>
         <dependency>
             <groupId>com.yammer.dropwizard</groupId>
             <artifactId>dropwizard-testing</artifactId>
+            <version>${dropwizard.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <argLine>
-                        -Djavax.net.ssl.keyStore=keystore
-                        -Djavax.net.ssl.keyStorePassword=deploymacy
-                        -Djavax.net.ssl.trustStore=keystore
-                        -Djavax.net.ssl.trustStorePassword=deploymacy
-                    </argLine>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 </project>
