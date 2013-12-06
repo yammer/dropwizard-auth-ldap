@@ -6,6 +6,8 @@
     <artifactId>dropwizard-auth-ldap</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
+    <description>Dropwizard Authentication Module for LDAP using JNDI</description>
+
     <scm>
         <connection>scm:git:git://github.com/yammer/dropwizard-auth-ldap.git</connection>
         <developerConnection>scm:git:git@github.com:yammer/dropwizard-auth-ldap.git</developerConnection>
