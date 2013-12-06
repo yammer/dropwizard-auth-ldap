@@ -7,15 +7,23 @@ used to authenticate users.
 Note: This module has only been subjected to the traffic of our engineering team. We have not used this to authenticate high-traffic or
 tuned the JNDI connection pool as such.
 
+Maven
+-----
+    <dependency>
+        <groupId>com.yammer.dropwizard</groupId>
+        <artifactId>dropwizard-auth-ldap</artifactId>
+        <version>0.0.1</version>
+    </dependency>
+
 How To Use
-==========
+----------
 
     LdapConfiguration configuration = new LdapConfiguration();
     LdapAuthenticator authenticator = new LdapAuthenticator(configuration);
     authenticator.authenticate(new BasicCredentials("user", "password"));
 
-How To Add Authenticator to your Service
-======================
+Add it to your Service
+----------------------
 
 I assume you are already familiar with dropwizard's authentication module.
 You can find more information about dropwizard authentication at http://www.dropwizard.io/manual/auth/
@@ -34,7 +42,7 @@ Here is an example how to add `LdapAuthenticator` using a `CachingAuthenticator`
     }
 
 Configuration
-=============
+-------------
     uri: "ldaps://myldap.com:636"
     cachePolicy: maximumSize=10000, expireAfterAccess=10m
     securityPrincipal: "cn=%s,dc=yourcompany,dc=com";
