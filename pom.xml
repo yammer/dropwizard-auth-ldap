@@ -5,8 +5,12 @@
     <groupId>com.yammer.dropwizard</groupId>
     <artifactId>dropwizard-auth-ldap</artifactId>
     <version>0.0.13-SNAPSHOT</version>
+    <packaging>jar</packaging>
 
+    <name>dropwizard-auth-ldap</name>
     <description>Dropwizard Authentication Module for LDAP using JNDI</description>
+
+    <url>https://github.com/yammer/dropwizard-auth-ldap</url>
 
     <scm>
         <connection>scm:git:git://github.com/yammer/dropwizard-auth-ldap.git</connection>
@@ -38,17 +42,6 @@
     <properties>
         <dropwizard.version>0.6.2</dropwizard.version>
     </properties>
-
-    <distributionManagement>
-        <repository>
-            <id>maven.int.yammer.com-releases</id>
-            <url>http://maven.int.yammer.com/nexus/content/repositories/releases/</url>
-        </repository>
-        <snapshotRepository>
-            <id>maven.int.yammer.com-snapshots</id>
-            <url>http://maven.int.yammer.com/nexus/content/repositories/snapshots/</url>
-        </snapshotRepository>
-    </distributionManagement>
 
     <dependencies>
         <dependency>
