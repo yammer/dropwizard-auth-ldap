@@ -82,6 +82,9 @@
                                 </goals>
                             </execution>
                         </executions>
+                        <configuration>
+                            <keyname>50930C9D</keyname>
+                        </configuration>
                     </plugin>
                 </plugins>
             </build>
