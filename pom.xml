@@ -13,7 +13,7 @@
     <url>https://github.com/yammer/dropwizard-auth-ldap</url>
 
     <scm>
-        <connectionUrl>scm:git:git@github.com:yammer/dropwizard-auth-ldap.git</connectionUrl>
+        <connection>scm:git:git://github.com/yammer/dropwizard-auth-ldap.git</connection>
         <developerConnection>scm:git:git@github.com:yammer/dropwizard-auth-ldap.git</developerConnection>
         <url>https://github.com/yammer/dropwizard-auth-ldap/</url>
         <tag>HEAD</tag>
