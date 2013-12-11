@@ -4,7 +4,7 @@
 
     <groupId>com.yammer.dropwizard</groupId>
     <artifactId>dropwizard-auth-ldap</artifactId>
-    <version>0.0.15-SNAPSHOT</version>
+    <version>0.0.14-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>dropwizard-auth-ldap</name>
