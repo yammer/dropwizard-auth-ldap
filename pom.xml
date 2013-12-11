@@ -136,8 +136,8 @@
                 <configuration>
                     <autoVersionSubmodules>true</autoVersionSubmodules>
                     <mavenExecutorId>forked-path</mavenExecutorId>
-                    <tagNameFormat>v@{project.version}</tagNameFormat>
-                    <preparationGoals>clean test</preparationGoals>
+                    <useReleaseProfile>false</useReleaseProfile>
+                    <arguments>${arguments} -Psonatype-oss-release</arguments>
                 </configuration>
             </plugin>
             <plugin>
