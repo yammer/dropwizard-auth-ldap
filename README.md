@@ -43,8 +43,8 @@ Here is an example how to add `LdapAuthenticator` using a `CachingAuthenticator`
 
 Configuration
 -------------
-    uri: "ldaps://myldap.com:636"
+    uri: ldaps://myldap.com:636
     cachePolicy: maximumSize=10000, expireAfterAccess=10m
-    securityPrincipal: "cn=%s,dc=yourcompany,dc=com";
+    securityPrincipal: cn=%s,dc=yourcompany,dc=com
     connectTimeout: 500ms
     readTimeout: 500ms
