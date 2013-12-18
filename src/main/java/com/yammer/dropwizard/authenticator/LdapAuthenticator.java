@@ -37,18 +37,19 @@ public class LdapAuthenticator {
     public boolean authenticate(BasicCredentials basicCredentials) throws com.yammer.dropwizard.auth.AuthenticationException {
         final TimerContext ldapAuthenticationTimer = LDAP_AUTHENTICATION_TIMER.time();
         try {
+            final String sanitizedUsername = sanitizeUsername(basicCredentials.getUsername());
             final Hashtable<String, String> env = contextConfiguration();
-            env.put(Context.SECURITY_PRINCIPAL, String.format(configuration.getSecurityPrincipal(), basicCredentials.getUsername()));
-            env.put(Context.SECURITY_CREDENTIALS, basicCredentials.getPassword());
+            env.put(Context.SECURITY_PRINCIPAL, String.format(configuration.getSecurityPrincipal(), sanitizedUsername));
+            env.put(Context.SECURITY_CREDENTIALS, sanitizedUsername);
 
             try {
                 new InitialDirContext(env).close();
                 return true;
             } catch (AuthenticationException ae) {
-                LOG.debug("{} failed to authenticate. {}", basicCredentials.getUsername(), ae);
+                LOG.debug("{} failed to authenticate. {}", sanitizedUsername, ae);
             } catch (NamingException err) {
                 throw new com.yammer.dropwizard.auth.AuthenticationException(String.format("LDAP Authentication failure (username: %s)",
-                        basicCredentials.getUsername()), err);
+                        sanitizedUsername), err);
             }
             return false;
         } finally {
@@ -64,5 +65,9 @@ public class LdapAuthenticator {
         env.put("com.sun.jndi.ldap.read.timeout", String.valueOf(configuration.getReadTimeout().toMilliseconds()));
         env.put("com.sun.jndi.ldap.connect.pool", "true");
         return env;
+    }
+
+    private static String sanitizeUsername(String username) {
+        return username.replaceAll("[^A-Za-z0-9-_.]", "");
     }
 }
