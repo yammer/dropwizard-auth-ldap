@@ -1,8 +1,9 @@
 LDAP Authenticator
 ==================
 
-This is a dropwizard-auth module using Basic-Auth + LDAP for authentication. This is the module internal tools at Yammer
-used to authenticate users.
+This is a simple dropwizard-auth module using Basic-Auth + LDAP for authentication. This is the module internal tools at Yammer
+used to authenticate users. It also reflects our simple/opinionated use of LDAP and thus doesn't support any role based filtering that
+one may expect.
 
 Note: This module has only been subjected to the traffic of our engineering team. We have not used this to authenticate high-traffic or
 tuned the JNDI connection pool as such.
@@ -12,7 +13,7 @@ Maven
     <dependency>
         <groupId>com.yammer.dropwizard</groupId>
         <artifactId>dropwizard-auth-ldap</artifactId>
-        <version>0.0.16</version>
+        <version>0.0.17</version>
     </dependency>
 
 How To Use
@@ -39,6 +40,7 @@ Here is an example how to add `LdapAuthenticator` using a `CachingAuthenticator`
                 ldapConfiguration.getCachePolicy());
 
         environment.addProvider(new BasicAuthProvider<>(ldapAuthenticator, "realm"));
+        environment.addHealthCheck(new LdapHealthCheck(new ResourceAuthenticator(new LdapCanAuthenticate(ldapConfiguration))));
     }
 
 Configuration
