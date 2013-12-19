@@ -13,7 +13,7 @@ Maven
     <dependency>
         <groupId>com.yammer.dropwizard</groupId>
         <artifactId>dropwizard-auth-ldap</artifactId>
-        <version>0.0.17</version>
+        <version>0.0.18</version>
     </dependency>
 
 How To Use
