@@ -40,7 +40,7 @@ public class LdapAuthenticator {
             final String sanitizedUsername = sanitizeUsername(basicCredentials.getUsername());
             final Hashtable<String, String> env = contextConfiguration();
             env.put(Context.SECURITY_PRINCIPAL, String.format(configuration.getSecurityPrincipal(), sanitizedUsername));
-            env.put(Context.SECURITY_CREDENTIALS, sanitizedUsername);
+            env.put(Context.SECURITY_CREDENTIALS, basicCredentials.getPassword());
 
             try {
                 new InitialDirContext(env).close();
