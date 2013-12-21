@@ -1,16 +1,17 @@
 language: java
 
-install: echo "I trust Maven."
-
-# don't just run the tests, also run Findbugs and friends
-script: mvn verify
+script: 'mvn verify deploy --settings maven_deploy_settings.xml'
 
 jdk:
   - oraclejdk7
+  - openjdk7
 
 notifications:
-  # See http://about.travis-ci.org/docs/user/build-configuration/ to learn more
-  # about configuring notification recipients and more.
   email:
     recipients:
       - gray.chris@gmail.com
+
+env:
+  global:
+    - secure: "SW2hc4fAlNcZmakSbYVg6NSwnb9g4eUX3m/DLSMYo7ddoBiqik55hFV9AGCGB0A5JXO62tIWIh8tAxJq7+/wghMm0rjp5Fa7EFp9gYcLmPDZcfNT6JzwFsKSph4UT59r+kb3uxMfNUEyPIJ+YVgy1RmlEHFhkkTUdzaRthra6fs="
+    - secure: "D0YqQf5SJYArDOpbOO8GVfAMnEcov4AHAduoEVxfrkrbtezqwek3xtoiZ9jlaikVmn1CDWOtMdgebi2MxKmMCYPN4tHT65qiv5qw28Mvi9diyw7qBMuE2qXEyKsxfGTy1Ie9xM7H8Xg6ouN6Rl2vK+y4cc45PvwM8y9Nun5CxEw="
