@@ -53,4 +53,4 @@ Configuration
 
 Bugs and Feedback
 -----------------
-For bugs, questions, and discussions please use the [Github Issues](httsp://github.com/yammer/dropwizard-auth-ldap/issues)
+For bugs, questions, and discussions please use the [Github Issues](https://github.com/yammer/dropwizard-auth-ldap/issues)
