@@ -50,3 +50,7 @@ Configuration
     securityPrincipal: cn=%s,dc=yourcompany,dc=com
     connectTimeout: 500ms
     readTimeout: 500ms
+
+Bugs and Feedback
+-----------------
+For bugs, questions, and discussions please use the [Github Issues](httsp://github.com/yammer/dropwizard-auth-ldap/issues)
