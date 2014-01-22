@@ -9,7 +9,7 @@ jdk:
 notifications:
   email:
     recipients:
-      - gray.chris@gmail.com
+      - yammer-sonatype@microsoft.com
 
 env:
   global:
