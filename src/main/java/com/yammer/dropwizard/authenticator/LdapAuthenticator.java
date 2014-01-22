@@ -53,13 +53,12 @@ public class LdapAuthenticator {
         final StringBuilder groupFilter = new StringBuilder();
         for (String group : restrictedToGroups) {
             final String sanitizedGroup = sanitizeEntity(group);
-            groupFilter.append(String.format("(cn=%s)", sanitizedGroup));
+            groupFilter.append(String.format("(%s=%s)", configuration.getGroupNameAttribute(), sanitizedGroup));
         }
 
-        final String filter = String.format("(&(memberUid=%s)(|%s))", sanitizedUsername, groupFilter.toString());
+        final String filter = String.format("(&(%s=%s)(|%s))", configuration.getGroupMembershipAttribute(), sanitizedUsername, groupFilter.toString());
 
-        final String groupDN = String.format("ou=groups,%s", configuration.getSecurityPrincipal());
-        final NamingEnumeration<SearchResult> result = context.search(groupDN, filter, new SearchControls());
+        final NamingEnumeration<SearchResult> result = context.search(configuration.getGroupFilter(), filter, new SearchControls());
         try {
             return result.hasMore();
         }
@@ -72,7 +71,7 @@ public class LdapAuthenticator {
         final TimerContext ldapAuthenticationTimer = LDAP_AUTHENTICATION_TIMER.time();
         try {
             final String sanitizedUsername = sanitizeEntity(basicCredentials.getUsername());
-            final String userDN = String.format("cn=%s,ou=people,%s", sanitizedUsername, configuration.getSecurityPrincipal());
+            final String userDN = String.format("%s=%s,%s", configuration.getUserNameAttribute(), sanitizedUsername, configuration.getUserFilter());
 
             final Hashtable<String, String> env = contextConfiguration();
 

@@ -21,7 +21,23 @@ public class LdapConfiguration {
 
     @NotNull
     @NotEmpty
-    private String securityPrincipal = "dc=com";
+    private String userFilter = "ou=people,dc=example,dc=com";
+
+    @NotNull
+    @NotEmpty
+    private String groupFilter = "ou=groups,dc=example,dc=com";
+
+    @NotNull
+    @NotEmpty
+    private String userNameAttribute = "cn";
+
+    @NotNull
+    @NotEmpty
+    private String groupNameAttribute = "cn";
+
+    @NotNull
+    @NotEmpty
+    private String groupMembershipAttribute = "memberUid";
 
     @NotNull
     @Valid
@@ -53,12 +69,48 @@ public class LdapConfiguration {
         return this;
     }
 
-    public String getSecurityPrincipal() {
-        return securityPrincipal;
+    public String getUserFilter() {
+        return userFilter;
     }
 
-    public LdapConfiguration setSecurityPrincipal(String securityPrincipal) {
-        this.securityPrincipal = securityPrincipal;
+    public LdapConfiguration setUserFilter(String userFilter) {
+        this.userFilter = userFilter;
+        return this;
+    }
+
+    public String getGroupFilter() {
+        return groupFilter;
+    }
+
+    public LdapConfiguration setGroupFilter(String groupFilter) {
+        this.groupFilter = groupFilter;
+        return this;
+    }
+
+    public String getUserNameAttribute() {
+        return userNameAttribute;
+    }
+
+    public LdapConfiguration setUserNameAttribute(String userNameAttribute) {
+        this.userNameAttribute = userNameAttribute;
+        return this;
+    }
+
+    public String getGroupNameAttribute() {
+        return groupNameAttribute;
+    }
+
+    public LdapConfiguration setGroupNameAttribute(String groupNameAttribute) {
+        this.groupNameAttribute = groupNameAttribute;
+        return this;
+    }
+
+    public String getGroupMembershipAttribute() {
+        return groupMembershipAttribute;
+    }
+
+    public LdapConfiguration setGroupMembershipAttribute(String groupMembershipAttribute) {
+        this.groupMembershipAttribute = groupMembershipAttribute;
         return this;
     }
 
