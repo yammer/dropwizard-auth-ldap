@@ -36,6 +36,12 @@
         <developer>
             <name>Chris Gray</name>
             <email>cgray@yammer-inc.com</email>
+            <timezone>-8</timezone>
+        </developer>
+        <developer>
+            <name>Jamie Furness</name>
+            <email>jfurness@yammer-inc.com</email>
+            <timezone>0</timezone>
         </developer>
     </developers>
 
