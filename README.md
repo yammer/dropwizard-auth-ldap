@@ -51,6 +51,10 @@ Configuration
     userNameAttribute: cn
     groupNameAttribute: cn
     groupMembershipAttribute: memberUid
+    restrictToGroups:
+        - user
+        - admin
+        - bots
     connectTimeout: 500ms
     readTimeout: 500ms
 
