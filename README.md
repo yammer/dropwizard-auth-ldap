@@ -58,6 +58,10 @@ Configuration
     connectTimeout: 500ms
     readTimeout: 500ms
 
+CHANGELOG
+---------
+Check the [Changelog](https://github.com/yammer/dropwizard-auth-ldap/blob/master/CHANGELOG.md) for detailed updates.
+
 Bugs and Feedback
 -----------------
 For bugs, questions, and discussions please use the [Github Issues](https://github.com/yammer/dropwizard-auth-ldap/issues)
