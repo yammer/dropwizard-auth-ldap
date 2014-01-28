@@ -3,7 +3,7 @@
 1. Replaced `securityPrincipal` with `userFilter`.
 2. Added `groupFilter` to allow for group membership filtering.
 3. Configurable username, groupname, and group membership attributes.
-4. Configurable group filtering set.
+4. Configurable group filtering set. If none are specified then fallback to previous behavior which was no group filtering.
 
 
 0.0.18
