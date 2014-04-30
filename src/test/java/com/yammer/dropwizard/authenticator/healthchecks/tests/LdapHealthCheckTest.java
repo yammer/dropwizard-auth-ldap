@@ -1,12 +1,12 @@
 package com.yammer.dropwizard.authenticator.healthchecks.tests;
 
-import com.yammer.dropwizard.auth.basic.BasicCredentials;
+import com.codahale.metrics.health.HealthCheck;
 import com.yammer.dropwizard.authenticator.LdapAuthenticator;
 import com.yammer.dropwizard.authenticator.LdapCanAuthenticate;
 import com.yammer.dropwizard.authenticator.LdapConfiguration;
 import com.yammer.dropwizard.authenticator.ResourceAuthenticator;
 import com.yammer.dropwizard.authenticator.healthchecks.LdapHealthCheck;
-import com.yammer.metrics.core.HealthCheck;
+import io.dropwizard.auth.basic.BasicCredentials;
 import org.junit.Before;
 import org.junit.Test;
 

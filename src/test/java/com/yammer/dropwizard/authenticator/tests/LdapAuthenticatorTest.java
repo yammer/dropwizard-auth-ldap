@@ -1,9 +1,9 @@
 package com.yammer.dropwizard.authenticator.tests;
 
-import com.yammer.dropwizard.auth.AuthenticationException;
-import com.yammer.dropwizard.auth.basic.BasicCredentials;
 import com.yammer.dropwizard.authenticator.LdapAuthenticator;
 import com.yammer.dropwizard.authenticator.LdapConfiguration;
+import io.dropwizard.auth.AuthenticationException;
+import io.dropwizard.auth.basic.BasicCredentials;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

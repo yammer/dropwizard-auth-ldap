@@ -1,9 +1,7 @@
 package com.yammer.dropwizard.authenticator;
 
-import com.yammer.dropwizard.auth.basic.BasicCredentials;
-import com.yammer.metrics.Metrics;
-import com.yammer.metrics.core.Timer;
-import com.yammer.metrics.core.TimerContext;
+import com.codahale.metrics.annotation.Timed;
+import io.dropwizard.auth.basic.BasicCredentials;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,9 +18,7 @@ import java.util.Set;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class LdapAuthenticator {
-
     private static final Logger LOG = LoggerFactory.getLogger(LdapAuthenticator.class);
-    private static final Timer LDAP_AUTHENTICATION_TIMER = Metrics.defaultRegistry().newTimer(LdapAuthenticator.class, "authenticate");
 
     private static String sanitizeEntity(String name) {
         return name.replaceAll("[^A-Za-z0-9-_.]", "");
@@ -67,35 +63,31 @@ public class LdapAuthenticator {
         }
     }
 
-    public boolean authenticate(BasicCredentials basicCredentials) throws com.yammer.dropwizard.auth.AuthenticationException {
-        final TimerContext ldapAuthenticationTimer = LDAP_AUTHENTICATION_TIMER.time();
+    @Timed
+    public boolean authenticate(BasicCredentials basicCredentials) throws io.dropwizard.auth.AuthenticationException {
+        final String sanitizedUsername = sanitizeEntity(basicCredentials.getUsername());
+        final String userDN = String.format("%s=%s,%s", configuration.getUserNameAttribute(), sanitizedUsername, configuration.getUserFilter());
+
+        final Hashtable<String, String> env = contextConfiguration();
+
+        env.put(Context.SECURITY_PRINCIPAL, userDN);
+        env.put(Context.SECURITY_CREDENTIALS, basicCredentials.getPassword());
+
         try {
-            final String sanitizedUsername = sanitizeEntity(basicCredentials.getUsername());
-            final String userDN = String.format("%s=%s,%s", configuration.getUserNameAttribute(), sanitizedUsername, configuration.getUserFilter());
-
-            final Hashtable<String, String> env = contextConfiguration();
-
-            env.put(Context.SECURITY_PRINCIPAL, userDN);
-            env.put(Context.SECURITY_CREDENTIALS, basicCredentials.getPassword());
-
+            final InitialDirContext context = new InitialDirContext(env);
             try {
-                final InitialDirContext context = new InitialDirContext(env);
-                try {
-                    return filterByGroup(context, sanitizedUsername);
-                }
-                finally {
-                    context.close();
-                }
-            } catch (AuthenticationException ae) {
-                LOG.debug("{} failed to authenticate. {}", sanitizedUsername, ae);
-            } catch (NamingException err) {
-                throw new com.yammer.dropwizard.auth.AuthenticationException(String.format("LDAP Authentication failure (username: %s)",
-                        sanitizedUsername), err);
+                return filterByGroup(context, sanitizedUsername);
             }
-            return false;
-        } finally {
-            ldapAuthenticationTimer.stop();
+            finally {
+                context.close();
+            }
+        } catch (AuthenticationException ae) {
+            LOG.debug("{} failed to authenticate. {}", sanitizedUsername, ae);
+        } catch (NamingException err) {
+            throw new io.dropwizard.auth.AuthenticationException(String.format("LDAP Authentication failure (username: %s)",
+                    sanitizedUsername), err);
         }
+        return false;
     }
 
     private Hashtable<String, String> contextConfiguration() {

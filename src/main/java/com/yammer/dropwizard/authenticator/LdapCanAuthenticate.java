@@ -1,7 +1,7 @@
 package com.yammer.dropwizard.authenticator;
 
-import com.yammer.dropwizard.auth.AuthenticationException;
-import com.yammer.dropwizard.auth.basic.BasicCredentials;
+import io.dropwizard.auth.AuthenticationException;
+import io.dropwizard.auth.basic.BasicCredentials;
 
 public class LdapCanAuthenticate extends LdapAuthenticator {
     public LdapCanAuthenticate(LdapConfiguration configuration) {

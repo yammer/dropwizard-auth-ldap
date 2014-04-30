@@ -1,3 +1,11 @@
+0.1.0
+-----
+Support for dropwizard 0.7.0
+
+0.0.x
+-----
+Now supports the deprecated 0.6.x dropwizard branch
+
 0.0.19
 ------
 1. Replaced `securityPrincipal` with `userFilter`.

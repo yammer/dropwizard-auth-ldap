@@ -2,7 +2,7 @@ package com.yammer.dropwizard.authenticator;
 
 import com.google.common.cache.CacheBuilderSpec;
 import com.google.common.collect.Sets;
-import com.yammer.dropwizard.util.Duration;
+import io.dropwizard.util.Duration;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.Valid;
@@ -10,6 +10,7 @@ import javax.validation.constraints.NotNull;
 import java.net.URI;
 import java.util.Set;
 
+@SuppressWarnings("unused")
 public class LdapConfiguration {
     @NotNull
     @Valid
