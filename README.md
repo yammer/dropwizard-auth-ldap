@@ -50,7 +50,7 @@ Here is an example how to add `LdapAuthenticator` using a `CachingAuthenticator`
 Configuration
 -------------
     uri: ldaps://myldap.com:636
-    cachePolicy: maximumSize=10000, expireAfterAccess=10m
+    cachePolicy: maximumSize=10000, expireAfterWrite=10m
     userFilter: ou=people,dc=yourcompany,dc=com
     groupFilter: ou=groups,dc=yourcompany,dc=com
     userNameAttribute: cn
