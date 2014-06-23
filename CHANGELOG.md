@@ -1,9 +1,15 @@
+0.1.1
+-----
+* Dropwizard 0.7.1
+* Upgrade to findbugs 2.5.4
+
 0.1.0
 -----
-Support for dropwizard 0.7.0
+* Support for dropwizard 0.7.0
 
 0.0.x
 -----
+* 
 Now supports the deprecated 0.6.x dropwizard branch
 
 0.0.19
