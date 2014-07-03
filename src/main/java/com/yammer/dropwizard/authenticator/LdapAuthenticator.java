@@ -63,22 +63,22 @@ public class LdapAuthenticator {
         }
     }
 
-    private ImmutableSet<String> getGroupMembershipsIntersectingWithRestrictedGroups(InitialDirContext context, String userName) throws NamingException {
+    private Set<String> getGroupMembershipsIntersectingWithRestrictedGroups(InitialDirContext context, String userName) throws NamingException {
         final String filter = String.format("(&(%s=%s)(objectClass=%s))", configuration.getGroupMembershipAttribute(), userName, configuration.getGroupClassName());
         final NamingEnumeration<SearchResult> result = context.search(configuration.getGroupFilter(), filter, new SearchControls());
 
-        ImmutableSet.Builder<String> setBuilder = ImmutableSet.builder();
+        ImmutableSet.Builder<String> overlappingGroups = ImmutableSet.builder();
         try {
             while (result.hasMore()) {
                 SearchResult next = result.next();
                 if (next.getAttributes() != null && next.getAttributes().get(configuration.getGroupNameAttribute()) != null) {
                     String group = (String) next.getAttributes().get(configuration.getGroupNameAttribute()).get(0);
                     if (configuration.getRestrictToGroups().contains(group)) {
-                        setBuilder.add(group);
+                        overlappingGroups.add(group);
                     }
                 }
             }
-            return setBuilder.build();
+            return overlappingGroups.build();
         } finally {
             result.close();
         }
@@ -116,7 +116,7 @@ public class LdapAuthenticator {
         final String sanitizedUsername = sanitizeEntity(credentials.getUsername());
         try {
             try (AutoclosingDirContext context = buildContext(sanitizedUsername, credentials.getPassword())) {
-                ImmutableSet<String> groupMemberships = getGroupMembershipsIntersectingWithRestrictedGroups(context, sanitizedUsername);
+                Set<String> groupMemberships = getGroupMembershipsIntersectingWithRestrictedGroups(context, sanitizedUsername);
                 if (groupMemberships.isEmpty()) {
                     return Optional.absent();
                 }
