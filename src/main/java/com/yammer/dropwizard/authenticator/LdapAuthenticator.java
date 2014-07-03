@@ -117,10 +117,9 @@ public class LdapAuthenticator {
         try {
             try (AutoclosingDirContext context = buildContext(sanitizedUsername, credentials.getPassword())) {
                 Set<String> groupMemberships = getGroupMembershipsIntersectingWithRestrictedGroups(context, sanitizedUsername);
-                if (groupMemberships.isEmpty()) {
-                    return Optional.absent();
+                if (!groupMemberships.isEmpty()) {
+                    return Optional.of(new User(sanitizedUsername, groupMemberships));
                 }
-                return Optional.of(new User(sanitizedUsername, groupMemberships));
             }
         } catch (AuthenticationException ae) {
             LOG.debug("{} failed to authenticate. {}", sanitizedUsername, ae);
