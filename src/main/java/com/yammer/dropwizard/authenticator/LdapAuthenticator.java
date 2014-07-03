@@ -21,8 +21,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class LdapAuthenticator {
     private static final Logger LOG = LoggerFactory.getLogger(LdapAuthenticator.class);
 
-    private static final String CN_ATTRIBUTE_KEY = "cn";
-
     private static String sanitizeEntity(String name) {
         return name.replaceAll("[^A-Za-z0-9-_.]", "");
     }
@@ -76,8 +74,8 @@ public class LdapAuthenticator {
         try {
             while(result.hasMore()){
                 SearchResult next = result.next();
-                if(next.getAttributes() != null && next.getAttributes().get(CN_ATTRIBUTE_KEY) != null){
-                    String group = (String) next.getAttributes().get(CN_ATTRIBUTE_KEY).get(0);
+                if(next.getAttributes() != null && next.getAttributes().get(configuration.getGroupNameAttribute()) != null){
+                    String group = (String) next.getAttributes().get(configuration.getGroupNameAttribute()).get(0);
                     if(configuration.getRestrictToGroups().contains(group)){
                         setBuilder.add(group);
                     }
