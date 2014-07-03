@@ -65,10 +65,8 @@ public class LdapAuthenticator {
     }
 
     private ImmutableSet<String> getGroupMembershipsIntersectingWithRestrictedGroups(InitialDirContext context, String userName) throws NamingException {
-
-        final String filter = String.format("(&(%s=%s)(objectClass=posixGroup))", configuration.getGroupMembershipAttribute(), userName);
+        final String filter = String.format("(&(%s=%s)(objectClass=%s))", configuration.getGroupMembershipAttribute(), userName, configuration.getGroupClassName());
         final NamingEnumeration<SearchResult> result = context.search(configuration.getGroupFilter(), filter, new SearchControls());
-
 
         ImmutableSet.Builder<String> setBuilder = new ImmutableSet.Builder<>();
         try {
