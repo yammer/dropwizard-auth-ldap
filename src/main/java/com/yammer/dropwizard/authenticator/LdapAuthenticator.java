@@ -134,7 +134,8 @@ public class LdapAuthenticator {
             throw new io.dropwizard.auth.AuthenticationException(String.format("LDAP Authentication failure (username: %s)",
                     sanitizedUsername), err);
         }
-        return null;
+        throw new io.dropwizard.auth.AuthenticationException(String.format("LDAP Authentication failure (username: %s)",
+                sanitizedUsername));
     }
 
     private Hashtable<String, String> contextConfiguration() {
