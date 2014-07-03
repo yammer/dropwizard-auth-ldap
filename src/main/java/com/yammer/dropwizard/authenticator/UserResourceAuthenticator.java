@@ -17,6 +17,6 @@ public class UserResourceAuthenticator implements Authenticator<BasicCredentials
 
     @Override
     public Optional<User> authenticate(BasicCredentials credentials) throws AuthenticationException {
-        return Optional.fromNullable(ldapAuthenticator.authenticateAndReturnPermittedGroups(credentials));
+        return ldapAuthenticator.authenticateAndReturnPermittedGroups(credentials);
     }
 }
