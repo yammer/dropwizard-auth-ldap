@@ -2,12 +2,14 @@ package com.yammer.dropwizard.authenticator;
 
 import com.google.common.collect.ImmutableSet;
 
+import java.util.Set;
+
 public class User {
 
     private final String name;
-    private final ImmutableSet<String> roles;
+    private final Set<String> roles;
 
-    public User(String name, ImmutableSet<String> roles) {
+    public User(String name, Set<String> roles) {
         this.name = name;
         this.roles = roles;
     }
@@ -16,7 +18,7 @@ public class User {
         return name;
     }
 
-    public ImmutableSet<String> getRoles() {
+    public Set<String> getRoles() {
         return roles;
     }
 }
