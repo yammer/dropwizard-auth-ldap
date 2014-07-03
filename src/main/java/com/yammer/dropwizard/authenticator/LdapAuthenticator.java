@@ -1,6 +1,7 @@
 package com.yammer.dropwizard.authenticator;
 
 import com.codahale.metrics.annotation.Timed;
+import com.google.common.collect.ImmutableSet;
 import io.dropwizard.auth.basic.BasicCredentials;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,6 +64,31 @@ public class LdapAuthenticator {
         }
     }
 
+    private ImmutableSet<String> getGroupMemberships(InitialDirContext context, String userName) throws NamingException {
+
+        final String filter = String.format("(&(%s=%s)(objectClass=posixGroup))", configuration.getGroupMembershipAttribute(), userName);
+
+        final NamingEnumeration<SearchResult> result = context.search(configuration.getGroupFilter(), filter, new SearchControls());
+
+        ImmutableSet.Builder<String> setBuilder = new ImmutableSet.Builder<>();
+
+        try {
+            while(result.hasMore()){
+                SearchResult next = result.next();
+                if(next.getAttributes() != null && next.getAttributes().get("cn") != null){
+                    String group = (String) next.getAttributes().get("cn").get(0);
+                    if(configuration.getRestrictToGroups().contains(group)){
+                        setBuilder.add(group);
+                    }
+                }
+            }
+            return setBuilder.build();
+        }
+        finally {
+            result.close();
+        }
+    }
+
     @Timed
     public boolean authenticate(BasicCredentials basicCredentials) throws io.dropwizard.auth.AuthenticationException {
         final String sanitizedUsername = sanitizeEntity(basicCredentials.getUsername());
@@ -88,6 +114,37 @@ public class LdapAuthenticator {
                     sanitizedUsername), err);
         }
         return false;
+    }
+
+    @Timed
+    public User authenticateWithGroups(BasicCredentials credentials) throws io.dropwizard.auth.AuthenticationException {
+        final String sanitizedUsername = sanitizeEntity(credentials.getUsername());
+        final String userDN = String.format("%s=%s,%s", configuration.getUserNameAttribute(), sanitizedUsername, configuration.getUserFilter());
+
+        final Hashtable<String, String> env = contextConfiguration();
+
+        env.put(Context.SECURITY_PRINCIPAL, userDN);
+        env.put(Context.SECURITY_CREDENTIALS, credentials.getPassword());
+
+        try {
+            final InitialDirContext context = new InitialDirContext(env);
+            try {
+                ImmutableSet<String> groupMemberships = getGroupMemberships(context, sanitizedUsername);
+                if(groupMemberships.isEmpty()){
+                    return null;
+                }
+                return new User(sanitizedUsername, credentials.getPassword(), groupMemberships);
+            }
+            finally {
+                context.close();
+            }
+        } catch (AuthenticationException ae) {
+            LOG.debug("{} failed to authenticate. {}", sanitizedUsername, ae);
+        } catch (NamingException err) {
+            throw new io.dropwizard.auth.AuthenticationException(String.format("LDAP Authentication failure (username: %s)",
+                    sanitizedUsername), err);
+        }
+        return null;
     }
 
     private Hashtable<String, String> contextConfiguration() {
