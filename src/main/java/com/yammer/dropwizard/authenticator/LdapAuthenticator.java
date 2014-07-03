@@ -21,6 +21,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class LdapAuthenticator {
     private static final Logger LOG = LoggerFactory.getLogger(LdapAuthenticator.class);
 
+    private static final String CN_ATTRIBUTE_KEY = "cn";
+
     private static String sanitizeEntity(String name) {
         return name.replaceAll("[^A-Za-z0-9-_.]", "");
     }
@@ -64,19 +66,18 @@ public class LdapAuthenticator {
         }
     }
 
-    private ImmutableSet<String> getGroupMemberships(InitialDirContext context, String userName) throws NamingException {
+    private ImmutableSet<String> getGroupMembershipsIntersectingWithRestrictedGroups(InitialDirContext context, String userName) throws NamingException {
 
         final String filter = String.format("(&(%s=%s)(objectClass=posixGroup))", configuration.getGroupMembershipAttribute(), userName);
-
         final NamingEnumeration<SearchResult> result = context.search(configuration.getGroupFilter(), filter, new SearchControls());
 
-        ImmutableSet.Builder<String> setBuilder = new ImmutableSet.Builder<>();
 
+        ImmutableSet.Builder<String> setBuilder = new ImmutableSet.Builder<>();
         try {
             while(result.hasMore()){
                 SearchResult next = result.next();
-                if(next.getAttributes() != null && next.getAttributes().get("cn") != null){
-                    String group = (String) next.getAttributes().get("cn").get(0);
+                if(next.getAttributes() != null && next.getAttributes().get(CN_ATTRIBUTE_KEY) != null){
+                    String group = (String) next.getAttributes().get(CN_ATTRIBUTE_KEY).get(0);
                     if(configuration.getRestrictToGroups().contains(group)){
                         setBuilder.add(group);
                     }
@@ -90,22 +91,11 @@ public class LdapAuthenticator {
     }
 
     @Timed
-    public boolean authenticate(BasicCredentials basicCredentials) throws io.dropwizard.auth.AuthenticationException {
-        final String sanitizedUsername = sanitizeEntity(basicCredentials.getUsername());
-        final String userDN = String.format("%s=%s,%s", configuration.getUserNameAttribute(), sanitizedUsername, configuration.getUserFilter());
-
-        final Hashtable<String, String> env = contextConfiguration();
-
-        env.put(Context.SECURITY_PRINCIPAL, userDN);
-        env.put(Context.SECURITY_CREDENTIALS, basicCredentials.getPassword());
-
+    public boolean authenticate(BasicCredentials credentials) throws io.dropwizard.auth.AuthenticationException {
+        final String sanitizedUsername = sanitizeEntity(credentials.getUsername());
         try {
-            final InitialDirContext context = new InitialDirContext(env);
-            try {
+            try (AutoclosingDirContext context = buildContext(sanitizedUsername, credentials.getPassword())){
                 return filterByGroup(context, sanitizedUsername);
-            }
-            finally {
-                context.close();
             }
         } catch (AuthenticationException ae) {
             LOG.debug("{} failed to authenticate. {}", sanitizedUsername, ae);
@@ -116,27 +106,27 @@ public class LdapAuthenticator {
         return false;
     }
 
-    @Timed
-    public User authenticateWithGroups(BasicCredentials credentials) throws io.dropwizard.auth.AuthenticationException {
-        final String sanitizedUsername = sanitizeEntity(credentials.getUsername());
+    private AutoclosingDirContext buildContext(String sanitizedUsername, String password) throws NamingException {
         final String userDN = String.format("%s=%s,%s", configuration.getUserNameAttribute(), sanitizedUsername, configuration.getUserFilter());
 
         final Hashtable<String, String> env = contextConfiguration();
 
         env.put(Context.SECURITY_PRINCIPAL, userDN);
-        env.put(Context.SECURITY_CREDENTIALS, credentials.getPassword());
+        env.put(Context.SECURITY_CREDENTIALS, password);
 
+        return new AutoclosingDirContext(env);
+    }
+
+    @Timed
+    public User authenticateAndReturnPermittedGroups(BasicCredentials credentials) throws io.dropwizard.auth.AuthenticationException {
+        final String sanitizedUsername = sanitizeEntity(credentials.getUsername());
         try {
-            final InitialDirContext context = new InitialDirContext(env);
-            try {
-                ImmutableSet<String> groupMemberships = getGroupMemberships(context, sanitizedUsername);
+            try (AutoclosingDirContext context = buildContext(sanitizedUsername, credentials.getPassword())){
+                ImmutableSet<String> groupMemberships = getGroupMembershipsIntersectingWithRestrictedGroups(context, sanitizedUsername);
                 if(groupMemberships.isEmpty()){
-                    return null;
+                    throw new AuthenticationException("No group memberships matching restricted groups");
                 }
-                return new User(sanitizedUsername, credentials.getPassword(), groupMemberships);
-            }
-            finally {
-                context.close();
+                return new User(sanitizedUsername, groupMemberships);
             }
         } catch (AuthenticationException ae) {
             LOG.debug("{} failed to authenticate. {}", sanitizedUsername, ae);

@@ -9,7 +9,7 @@ public class LdapCanAuthenticate extends LdapAuthenticator {
     }
 
     @Override
-    public boolean authenticate(BasicCredentials basicCredentials) throws AuthenticationException {
+    public boolean authenticate(BasicCredentials credentials) throws AuthenticationException {
         return canAuthenticate();
     }
 }
