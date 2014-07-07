@@ -41,6 +41,10 @@ public class LdapConfiguration {
     private String groupMembershipAttribute = "memberUid";
 
     @NotNull
+    @NotEmpty
+    private String groupClassName = "posixGroup";
+
+    @NotNull
     @Valid
     private Duration connectTimeout = Duration.milliseconds(500);
 
@@ -112,6 +116,15 @@ public class LdapConfiguration {
 
     public LdapConfiguration setGroupMembershipAttribute(String groupMembershipAttribute) {
         this.groupMembershipAttribute = groupMembershipAttribute;
+        return this;
+    }
+
+    public String getGroupClassName() {
+        return groupClassName;
+    }
+
+    public LdapConfiguration setGroupClassName(String groupClassName) {
+        this.groupClassName = groupClassName;
         return this;
     }
 

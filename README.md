@@ -56,6 +56,7 @@ Configuration
     userNameAttribute: cn
     groupNameAttribute: cn
     groupMembershipAttribute: memberUid
+    groupClassName: posixGroup
     restrictToGroups:
         - user
         - admin

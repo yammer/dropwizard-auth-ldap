@@ -7,10 +7,10 @@ import io.dropwizard.auth.basic.BasicCredentials;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public class LdapHealthCheck extends HealthCheck {
-    private final Authenticator<BasicCredentials, BasicCredentials> ldapAuthenticator;
+public class LdapHealthCheck<T> extends HealthCheck {
+    private final Authenticator<BasicCredentials, T> ldapAuthenticator;
 
-    public LdapHealthCheck(Authenticator<BasicCredentials, BasicCredentials> ldapAuthenticator) {
+    public LdapHealthCheck(Authenticator<BasicCredentials, T> ldapAuthenticator) {
         this.ldapAuthenticator = checkNotNull(ldapAuthenticator, "ldapAuthenticator cannot be null");
     }
 
