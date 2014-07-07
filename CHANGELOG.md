@@ -1,3 +1,7 @@
+0.1.2
+-----
+* Merged [pull request 2](https://github.com/yammer/dropwizard-auth-ldap/pull/2) to add support for returning a `User` type that contains their group memberships intersecting with the `restrictGroups` supplied.
+
 0.1.1
 -----
 * Dropwizard 0.7.1

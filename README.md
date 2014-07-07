@@ -12,7 +12,7 @@ Maven
     <dependency>
         <groupId>com.yammer.dropwizard</groupId>
         <artifactId>dropwizard-auth-ldap</artifactId>
-        <version>0.1.1</version>
+        <version>0.1.2</version>
     </dependency>
 
 Legacy Dropwizard Support
