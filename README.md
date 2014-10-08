@@ -31,7 +31,7 @@ Add it to your Service
 ----------------------
 
 I assume you are already familiar with dropwizard's authentication module.
-You can find more information about dropwizard authentication at http://www.dropwizard.io/manual/auth/
+You can find more information about dropwizard authentication at http://www.dropwizard.io/manual/auth.html
 
 Here is an example how to add `LdapAuthenticator` using a `CachingAuthenticator` to your service:
 
