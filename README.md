@@ -9,11 +9,14 @@ tuned the JNDI connection pool as such.
 
 Maven
 -----
-    <dependency>
-        <groupId>com.yammer.dropwizard</groupId>
-        <artifactId>dropwizard-auth-ldap</artifactId>
-        <version>0.1.2</version>
-    </dependency>
+
+```xml
+<dependency>
+    <groupId>com.yammer.dropwizard</groupId>
+    <artifactId>dropwizard-auth-ldap</artifactId>
+    <version>0.1.2</version>
+</dependency>
+```
 
 Legacy Dropwizard Support
 ------------------
@@ -23,9 +26,11 @@ Legacy Dropwizard Support
 How To Use
 ----------
 
-    LdapConfiguration configuration = new LdapConfiguration();
-    LdapAuthenticator authenticator = new LdapAuthenticator(configuration);
-    authenticator.authenticate(new BasicCredentials("user", "password"));
+```java
+LdapConfiguration configuration = new LdapConfiguration();
+LdapAuthenticator authenticator = new LdapAuthenticator(configuration);
+authenticator.authenticate(new BasicCredentials("user", "password"));
+```
 
 Add it to your Service
 ----------------------
@@ -35,42 +40,48 @@ You can find more information about dropwizard authentication at http://www.drop
 
 Here is an example how to add `LdapAuthenticator` using a `CachingAuthenticator` to your service:
 
-    @Override
-        public void run(Configuration configuration, Environment environment) throws Exception {
-            LdapConfiguration ldapConfiguration = configuration.getLdapConfiguration();
-            Authenticator<BasicCredentials, BasicCredentials> ldapAuthenticator = new CachingAuthenticator<>(
-                    environment.metrics(),
-                    new ResourceAuthenticator(new LdapAuthenticator(ldapConfiguration)),
-                    ldapConfiguration.getCachePolicy());
+```java
+@Override
+    public void run(Configuration configuration, Environment environment) throws Exception {
+        LdapConfiguration ldapConfiguration = configuration.getLdapConfiguration();
+        Authenticator<BasicCredentials, BasicCredentials> ldapAuthenticator = new CachingAuthenticator<>(
+                environment.metrics(),
+                new ResourceAuthenticator(new LdapAuthenticator(ldapConfiguration)),
+                ldapConfiguration.getCachePolicy());
 
-            environment.jersey().register(new BasicAuthProvider<>(ldapAuthenticator, "realm"));
-            environment.healthChecks().register("ldap",
-                    new LdapHealthCheck<>(new ResourceAuthenticator(new LdapCanAuthenticate(ldapConfiguration))));
-    }
+        environment.jersey().register(new BasicAuthProvider<>(ldapAuthenticator, "realm"));
+        environment.healthChecks().register("ldap",
+                new LdapHealthCheck<>(new ResourceAuthenticator(new LdapCanAuthenticate(ldapConfiguration))));
+}
+```
 
 Additional Notes
 ----------------------
 
-Make sure to register your resources. Example: 
-    
-    environment.jersey().register(new YourResource());
+Make sure to register your resources. Example:
 
+```java
+environment.jersey().register(new YourResource());
+```
 Configuration
 -------------
-    uri: ldaps://myldap.com:636
-    cachePolicy: maximumSize=10000, expireAfterWrite=10m
-    userFilter: ou=people,dc=yourcompany,dc=com
-    groupFilter: ou=groups,dc=yourcompany,dc=com
-    userNameAttribute: cn
-    groupNameAttribute: cn
-    groupMembershipAttribute: memberUid
-    groupClassName: posixGroup
-    restrictToGroups:
-        - user
-        - admin
-        - bots
-    connectTimeout: 500ms
-    readTimeout: 500ms
+
+```yml
+uri: ldaps://myldap.com:636
+cachePolicy: maximumSize=10000, expireAfterWrite=10m
+userFilter: ou=people,dc=yourcompany,dc=com
+groupFilter: ou=groups,dc=yourcompany,dc=com
+userNameAttribute: cn
+groupNameAttribute: cn
+groupMembershipAttribute: memberUid
+groupClassName: posixGroup
+restrictToGroups:
+    - user
+    - admin
+    - bots
+connectTimeout: 500ms
+readTimeout: 500ms
+```
 
 CHANGELOG
 ---------
