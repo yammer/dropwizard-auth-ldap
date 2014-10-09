@@ -36,16 +36,24 @@ You can find more information about dropwizard authentication at http://www.drop
 Here is an example how to add `LdapAuthenticator` using a `CachingAuthenticator` to your service:
 
     @Override
-    public void run(Configuration configuration, Environment environment) throws Exception {
-        LdapConfiguration ldapConfiguration = configuration.getLdapConfiguration();
-        Authenticator<BasicCredentials, BasicCredentials> ldapAuthenticator =
-            CachingAuthenticator.wrap(
-                new ResourceAuthenticator(new LdapAuthenticator(ldapConfiguration)),
-                ldapConfiguration.getCachePolicy());
+        public void run(Configuration configuration, Environment environment) throws Exception {
+            LdapConfiguration ldapConfiguration = configuration.getLdapConfiguration();
+            Authenticator<BasicCredentials, BasicCredentials> ldapAuthenticator = new CachingAuthenticator<>(
+                    environment.metrics(),
+                    new ResourceAuthenticator(new LdapAuthenticator(ldapConfiguration)),
+                    ldapConfiguration.getCachePolicy());
 
-        environment.addProvider(new BasicAuthProvider<>(ldapAuthenticator, "realm"));
-        environment.addHealthCheck(new LdapHealthCheck(new ResourceAuthenticator(new LdapCanAuthenticate(ldapConfiguration))));
+            environment.jersey().register(new BasicAuthProvider<>(ldapAuthenticator, "realm"));
+            environment.healthChecks().register("ldap",
+                    new LdapHealthCheck<>(new ResourceAuthenticator(new LdapCanAuthenticate(ldapConfiguration))));
     }
+
+Additional Notes
+----------------------
+
+Make sure to register your resources. Example: 
+    
+    environment.jersey().register(new YourResource());
 
 Configuration
 -------------
