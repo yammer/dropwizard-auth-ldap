@@ -9,7 +9,7 @@ tuned the JNDI connection pool as such.
 
 Maven
 -----
-
+   
 ```xml
 <dependency>
     <groupId>com.yammer.dropwizard</groupId>
@@ -42,16 +42,16 @@ Here is an example how to add `LdapAuthenticator` using a `CachingAuthenticator`
 
 ```java
 @Override
-    public void run(Configuration configuration, Environment environment) throws Exception {
-        LdapConfiguration ldapConfiguration = configuration.getLdapConfiguration();
-        Authenticator<BasicCredentials, BasicCredentials> ldapAuthenticator = new CachingAuthenticator<>(
-                environment.metrics(),
-                new ResourceAuthenticator(new LdapAuthenticator(ldapConfiguration)),
-                ldapConfiguration.getCachePolicy());
+public void run(Configuration configuration, Environment environment) throws Exception {
+    LdapConfiguration ldapConfiguration = configuration.getLdapConfiguration();
+    Authenticator<BasicCredentials, BasicCredentials> ldapAuthenticator = new CachingAuthenticator<>(
+            environment.metrics(),
+            new ResourceAuthenticator(new LdapAuthenticator(ldapConfiguration)),
+            ldapConfiguration.getCachePolicy());
 
-        environment.jersey().register(new BasicAuthProvider<>(ldapAuthenticator, "realm"));
-        environment.healthChecks().register("ldap",
-                new LdapHealthCheck<>(new ResourceAuthenticator(new LdapCanAuthenticate(ldapConfiguration))));
+    environment.jersey().register(new BasicAuthProvider<>(ldapAuthenticator, "realm"));
+    environment.healthChecks().register("ldap",
+            new LdapHealthCheck<>(new ResourceAuthenticator(new LdapCanAuthenticate(ldapConfiguration))));
 }
 ```
 
