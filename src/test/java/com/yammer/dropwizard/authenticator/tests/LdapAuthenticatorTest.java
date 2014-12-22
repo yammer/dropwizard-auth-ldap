@@ -1,14 +1,13 @@
 package com.yammer.dropwizard.authenticator.tests;
 
-import com.yammer.dropwizard.authenticator.LdapAuthenticator;
-import com.yammer.dropwizard.authenticator.LdapConfiguration;
 import io.dropwizard.auth.AuthenticationException;
 import io.dropwizard.auth.basic.BasicCredentials;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import com.yammer.dropwizard.authenticator.LdapAuthenticator;
+import com.yammer.dropwizard.authenticator.LdapConfiguration;
 
 public class LdapAuthenticatorTest {
     private static LdapAuthenticator ldapAuthenticator;
@@ -21,21 +20,21 @@ public class LdapAuthenticatorTest {
 
     @Test(expected = AuthenticationException.class)
     public void badUser() throws AuthenticationException {
-        assertThat(ldapAuthenticator.authenticate(new BasicCredentials("user", "password")), is(false));
+        ldapAuthenticator.authenticate(new BasicCredentials("user", "password"));
     }
 
     @Test(expected = AuthenticationException.class)
     public void noPassword() throws AuthenticationException {
-        assertThat(ldapAuthenticator.authenticate(new BasicCredentials("user", "")), is(false));
+        ldapAuthenticator.authenticate(new BasicCredentials("user", ""));
     }
 
     @Test(expected = AuthenticationException.class)
     public void noUser() throws AuthenticationException {
-        assertThat(ldapAuthenticator.authenticate(new BasicCredentials("", "password")), is(false));
+        ldapAuthenticator.authenticate(new BasicCredentials("", "password"));
     }
 
     @Test(expected = AuthenticationException.class)
     public void badServer() throws AuthenticationException {
-        assertThat(ldapAuthenticator.authenticate(new BasicCredentials("user", "password")), is(false));
+        ldapAuthenticator.authenticate(new BasicCredentials("user", "password"));
     }
 }
