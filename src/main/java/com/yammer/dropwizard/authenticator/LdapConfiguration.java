@@ -1,18 +1,16 @@
 package com.yammer.dropwizard.authenticator;
 
+import com.google.common.cache.CacheBuilderSpec;
+import com.google.common.collect.Sets;
 import io.dropwizard.util.Duration;
-
-import java.net.URI;
-import java.util.Set;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.net.URI;
+import java.util.Set;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
-import com.google.common.cache.CacheBuilderSpec;
-import com.google.common.collect.Sets;
-
+@SuppressWarnings("unused")
 public class LdapConfiguration {
     @NotNull
     @Valid
@@ -56,7 +54,7 @@ public class LdapConfiguration {
 
     @NotNull
     @Valid
-    private final Set<String> restrictToGroups = Sets.newHashSet();
+    private Set<String> restrictToGroups = Sets.newHashSet();
 
     public URI getUri() {
         return uri;
