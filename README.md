@@ -1,4 +1,4 @@
-LDAP Authenticator [![Build Status](https://travis-ci.org/yammer/dropwizard-auth-ldap.png)](https://travis-ci.org/yammer/dropwizard-auth-ldap)
+LDAP Authenticator [![Build Status](https://travis-ci.org/yammer/dropwizard-auth-ldap.svg)](https://travis-ci.org/yammer/dropwizard-auth-ldap) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.yammer.dropwizard/dropwizard-auth-ldap/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.yammer.dropwizard/dropwizard-auth-ldap)
 ==================
 
 This is a simple dropwizard-auth module using Basic-Auth + LDAP for authentication. This is the module internal tools at Yammer
