@@ -73,7 +73,8 @@ public class LdapAuthenticator {
                 SearchResult next = result.next();
                 if (next.getAttributes() != null && next.getAttributes().get(configuration.getGroupNameAttribute()) != null) {
                     String group = (String) next.getAttributes().get(configuration.getGroupNameAttribute()).get(0);
-                    if (configuration.getRestrictToGroups().contains(group)) {
+                    if (configuration.getRestrictToGroups().isEmpty() ||
+                            configuration.getRestrictToGroups().contains(group)) {
                         overlappingGroups.add(group);
                     }
                 }
