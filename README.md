@@ -14,7 +14,7 @@ Maven
 <dependency>
     <groupId>com.yammer.dropwizard</groupId>
     <artifactId>dropwizard-auth-ldap</artifactId>
-    <version>0.1.2</version>
+    <version>0.2.0</version>
 </dependency>
 ```
 
@@ -49,7 +49,7 @@ public void run(Configuration configuration, Environment environment) throws Exc
             new ResourceAuthenticator(new LdapAuthenticator(ldapConfiguration)),
             ldapConfiguration.getCachePolicy());
 
-    environment.jersey().register(new BasicAuthProvider<>(ldapAuthenticator, "realm"));
+    environment.jersey().register(AuthFactory.binder(new BasicAuthFactory<>(ldapAuthenticator, "realm", BasicCredentials.class));
     environment.healthChecks().register("ldap",
             new LdapHealthCheck<>(new ResourceAuthenticator(new LdapCanAuthenticate(ldapConfiguration))));
 }

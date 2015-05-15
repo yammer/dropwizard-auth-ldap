@@ -1,3 +1,9 @@
+0.2.0
+-----
+* Merged [pull request 8](https://github.com/yammer/dropwizard-auth-ldap/pull/8) to dropwizard 0.8.1
+* Moved off 0.1.x for which will be reserved for dropward 0.7.x patches
+* Updated `README` for new `AuthFactory` and `BasicAuthFactory` use in dropwizard 0.8.1
+
 0.1.2
 -----
 * Merged [pull request 2](https://github.com/yammer/dropwizard-auth-ldap/pull/2) to add support for returning a `User` type that contains their group memberships intersecting with the `restrictGroups` supplied.
