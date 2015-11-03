@@ -5,9 +5,11 @@ import io.dropwizard.auth.AuthenticationException;
 import io.dropwizard.auth.Authenticator;
 import io.dropwizard.auth.basic.BasicCredentials;
 
+import java.security.Principal;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public class LdapHealthCheck<T> extends HealthCheck {
+public class LdapHealthCheck<T extends Principal> extends HealthCheck {
     private final Authenticator<BasicCredentials, T> ldapAuthenticator;
 
     public LdapHealthCheck(Authenticator<BasicCredentials, T> ldapAuthenticator) {

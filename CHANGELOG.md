@@ -1,3 +1,13 @@
+0.3.0
+-----
+* Dropwizard 0.9.1
+* Findbugs 3.0.2
+* Updating maven-plugins
+
+0.2.1
+-----
+* Dropwizard 0.8.4
+
 0.2.0
 -----
 * Merged [pull request 8](https://github.com/yammer/dropwizard-auth-ldap/pull/8) to dropwizard 0.8.1

@@ -1,8 +1,9 @@
 package com.yammer.dropwizard.authenticator;
 
+import java.security.Principal;
 import java.util.Set;
 
-public class User {
+public class User implements Principal {
 
     private final String name;
     private final Set<String> roles;
