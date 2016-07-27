@@ -1,3 +1,8 @@
+1.0.0 - July 26, 2016
+----
+* Dropwizard 1.0.0
+* Targetting `Java8`
+
 0.3.0 - Nov 5, 2015
 -----
 * Dropwizard 0.9.1

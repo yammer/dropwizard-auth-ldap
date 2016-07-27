@@ -1,7 +1,6 @@
 package com.yammer.dropwizard.authenticator;
 
 import com.codahale.metrics.annotation.Timed;
-import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
 import io.dropwizard.auth.basic.BasicCredentials;
 import org.slf4j.Logger;
@@ -15,6 +14,7 @@ import javax.naming.directory.InitialDirContext;
 import javax.naming.directory.SearchControls;
 import javax.naming.directory.SearchResult;
 import java.util.Hashtable;
+import java.util.Optional;
 import java.util.Set;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -128,7 +128,7 @@ public class LdapAuthenticator {
             throw new io.dropwizard.auth.AuthenticationException(String.format("LDAP Authentication failure (username: %s)",
                     sanitizedUsername), err);
         }
-        return Optional.absent();
+        return Optional.empty();
     }
 
     private Hashtable<String, String> contextConfiguration() {
