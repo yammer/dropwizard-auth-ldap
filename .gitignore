@@ -1,4 +1,4 @@
-+*.iml
-+.idea/*
-+*.swp
-+target/*
+*.iml
+.idea/*
+*.swp
+target/*
