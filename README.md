@@ -83,6 +83,8 @@ connectTimeout: 500ms
 readTimeout: 500ms
 ```
 
+Note: You can set `groupClassName` to `groupOfNames` and the `groupMembershipAttribute` to `member` to search for group membership using the full userDN.
+
 CHANGELOG
 ---------
 Check the [Changelog](https://github.com/yammer/dropwizard-auth-ldap/blob/master/CHANGELOG.md) for detailed updates.
