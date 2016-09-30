@@ -54,7 +54,7 @@
         <dependencies>
             <dependency>
                 <groupId>io.dropwizard</groupId>
-                <artifactId>dropwizard-auth</artifactId>
+                <artifactId>dropwizard-bom</artifactId>
                 <version>${dropwizard.version}</version>
                 <scope>import</scope>
                 <type>pom</type>
