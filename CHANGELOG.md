@@ -1,3 +1,14 @@
+1.0.2 - Sept 30, 2016
+---
+* Fixed a bug where `dropwizard-bom` wasn't specified correctly
+
+1.0.1 - Sept 30, 2016
+---
+* Merged [pull request 5](https://github.com/yammer/dropwizard-auth-ldap/pull/5)
+* Dropwizard 1.0.2
+* Leverage `dropwizard-bom`
+* Adding `maven-enforcer-plugin`
+
 1.0.0 - July 26, 2016
 ----
 * Dropwizard 1.0.0
