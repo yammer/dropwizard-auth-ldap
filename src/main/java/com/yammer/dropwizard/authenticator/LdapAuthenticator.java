@@ -31,8 +31,9 @@ public class LdapAuthenticator {
     }
 
     public boolean canAuthenticate() {
-        try (AutoclosingLdapContext context = new AutoclosingLdapContext(contextConfiguration(),
-                configuration.isNegotiateTls())) {
+        try {
+            new AutoclosingLdapContext(contextConfiguration(),
+                    configuration.isNegotiateTls()).close();
             return true;
         } catch (Exception err) {
             //can't authenticate
