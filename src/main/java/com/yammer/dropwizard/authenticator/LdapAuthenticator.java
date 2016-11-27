@@ -10,7 +10,6 @@ import javax.naming.AuthenticationException;
 import javax.naming.Context;
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
-import javax.naming.directory.InitialDirContext;
 import javax.naming.directory.SearchControls;
 import javax.naming.directory.SearchResult;
 import java.util.Hashtable;
@@ -32,8 +31,8 @@ public class LdapAuthenticator {
     }
 
     public boolean canAuthenticate() {
-        try {
-            new InitialDirContext(contextConfiguration()).close();
+        try (AutoclosingLdapContext context = new AutoclosingLdapContext(contextConfiguration(),
+                configuration.isNegotiateTls())) {
             return true;
         } catch (Exception err) {
             //can't authenticate
@@ -41,7 +40,7 @@ public class LdapAuthenticator {
         return false;
     }
 
-    private boolean filterByGroup(InitialDirContext context, String sanitizedUsername) throws NamingException {
+    private boolean filterByGroup(AutoclosingLdapContext context, String sanitizedUsername) throws NamingException {
         final Set<String> restrictedToGroups = configuration.getRestrictToGroups();
         if (restrictedToGroups.isEmpty()) {
             return true;
@@ -63,7 +62,7 @@ public class LdapAuthenticator {
         }
     }
 
-    private Set<String> getGroupMembershipsIntersectingWithRestrictedGroups(InitialDirContext context, String userName) throws NamingException {
+    private Set<String> getGroupMembershipsIntersectingWithRestrictedGroups(AutoclosingLdapContext context, String userName) throws NamingException {
 
         userName = userNameBaseOnGroupClass(userName);
 
@@ -100,7 +99,7 @@ public class LdapAuthenticator {
     public boolean authenticate(BasicCredentials credentials) throws io.dropwizard.auth.AuthenticationException {
         final String sanitizedUsername = sanitizeEntity(credentials.getUsername());
         try {
-            try (AutoclosingDirContext context = buildContext(sanitizedUsername, credentials.getPassword())) {
+            try (AutoclosingLdapContext context = buildContext(sanitizedUsername, credentials.getPassword())) {
                 return filterByGroup(context, sanitizedUsername);
             }
         } catch (AuthenticationException ae) {
@@ -112,7 +111,7 @@ public class LdapAuthenticator {
         return false;
     }
 
-    private AutoclosingDirContext buildContext(String sanitizedUsername, String password) throws NamingException {
+    private AutoclosingLdapContext buildContext(String sanitizedUsername, String password) throws NamingException {
         final String userDN = toUserDN(sanitizedUsername);
 
         final Hashtable<String, String> env = contextConfiguration();
@@ -120,7 +119,7 @@ public class LdapAuthenticator {
         env.put(Context.SECURITY_PRINCIPAL, userDN);
         env.put(Context.SECURITY_CREDENTIALS, password);
 
-        return new AutoclosingDirContext(env);
+        return new AutoclosingLdapContext(env, configuration.isNegotiateTls());
     }
 
     private String toUserDN(String username) {
@@ -131,7 +130,7 @@ public class LdapAuthenticator {
     public Optional<User> authenticateAndReturnPermittedGroups(BasicCredentials credentials) throws io.dropwizard.auth.AuthenticationException {
         final String sanitizedUsername = sanitizeEntity(credentials.getUsername());
         try {
-            try (AutoclosingDirContext context = buildContext(sanitizedUsername, credentials.getPassword())) {
+            try (AutoclosingLdapContext context = buildContext(sanitizedUsername, credentials.getPassword())) {
                 Set<String> groupMemberships = getGroupMembershipsIntersectingWithRestrictedGroups(context, sanitizedUsername);
                 if (!groupMemberships.isEmpty()) {
                     return Optional.of(new User(sanitizedUsername, groupMemberships));

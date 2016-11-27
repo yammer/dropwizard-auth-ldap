@@ -56,6 +56,8 @@ public class LdapConfiguration {
     @Valid
     private Set<String> restrictToGroups = Sets.newHashSet();
 
+    private boolean negotiateTls = true;
+
     public URI getUri() {
         return uri;
     }
@@ -153,5 +155,13 @@ public class LdapConfiguration {
     public LdapConfiguration addRestrictedGroup(String group) {
         restrictToGroups.add(group);
         return this;
+    }
+
+    public boolean isNegotiateTls() {
+        return negotiateTls;
+    }
+
+    public void setNegotiateTls(boolean negotiateTls) {
+        this.negotiateTls = negotiateTls;
     }
 }
