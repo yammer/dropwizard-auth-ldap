@@ -81,6 +81,7 @@ restrictToGroups:
     - bots
 connectTimeout: 500ms
 readTimeout: 500ms
+negotiateTls: true
 ```
 
 Note: You can set `groupClassName` to `groupOfNames` and the `groupMembershipAttribute` to `member` to search for group membership using the full userDN.

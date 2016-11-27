@@ -1,3 +1,7 @@
+Next
+---
+* `negotiateTls` controls whether or not the Ldap connection tries to negotiate TLS
+
 1.0.2 - Sept 30, 2016
 ---
 * Fixed a bug where `dropwizard-bom` wasn't specified correctly
