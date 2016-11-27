@@ -1,6 +1,7 @@
-Next
+1.0.3 - Nov. 26, 2016
 ---
 * `negotiateTls` controls whether or not the Ldap connection tries to negotiate TLS
+* Dropwizard 1.0.5
 
 1.0.2 - Sept 30, 2016
 ---
