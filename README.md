@@ -42,25 +42,27 @@ Here is an example how to add `LdapAuthenticator` using a `CachingAuthenticator`
 
 ```java
 @Override
-public void run(Configuration configuration, Environment environment) throws Exception {
-    LdapConfiguration ldapConfiguration = configuration.getLdapConfiguration();
-
-    Authenticator<BasicCredentials, BasicCredentials> ldapAuthenticator = new CachingAuthenticator<>(
-            environment.metrics(),
-            new ResourceAuthenticator(new LdapAuthenticator(ldapConfiguration)),
-            ldapConfiguration.getCachePolicy());
-
-    environment.jersey().register(new AuthDynamicFeature(
-            new BasicCredentialAuthFilter.Builder<User>()
-                .setAuthenticator(ldapAuthenticator)
-                .setRealm("LDAP")
-                .buildAuthFilter()));
-
-    environment.jersey().register(new AuthValueFactoryProvider.Binder<>(BasicCredentials.class));
-
-    environment.healthChecks().register("ldap", new LdapHealthCheck<>(new LdapCanAuthenticate(ldapConfiguration)));
-}
+public void run(ExampleAppConfiguration configuration, Environment environment) throws Exception {
+      final LdapConfiguration ldapConfiguration = configuration.getLdapConfiguration();
+    
+      Authenticator<BasicCredentials, User> ldapAuthenticator = new CachingAuthenticator<>(
+              environment.metrics(),
+              new ResourceAuthenticator(new LdapAuthenticator(ldapConfiguration)),
+              ldapConfiguration.getCachePolicy());
+    
+      environment.jersey().register(new AuthDynamicFeature(
+              new BasicCredentialAuthFilter.Builder<User>()
+                      .setAuthenticator(ldapAuthenticator)
+                      .setRealm("LDAP")
+                      .buildAuthFilter()));
+    
+      environment.jersey().register(new AuthValueFactoryProvider.Binder<>(User.class));
+    
+      environment.healthChecks().register("ldap", new LdapHealthCheck<>(
+              new ResourceAuthenticator(new LdapCanAuthenticate(ldapConfiguration))));}
 ```
+
+https://github.com/yammer/dropwizard-auth-ldap/blob/master/src/test/java/com/yammer/dropwizard/authenticator/tests/ExampleAppTest.java
 
 Additional Notes
 ----------------------
