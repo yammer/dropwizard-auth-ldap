@@ -13,6 +13,7 @@ public class User implements Principal {
         this.roles = roles;
     }
 
+    @Override
     public String getName() {
         return name;
     }
