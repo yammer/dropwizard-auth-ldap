@@ -12,6 +12,7 @@ import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
 import javax.naming.directory.SearchControls;
 import javax.naming.directory.SearchResult;
+import java.io.IOException;
 import java.util.Hashtable;
 import java.util.Optional;
 import java.util.Set;
@@ -33,7 +34,7 @@ public class LdapAuthenticator {
     public boolean canAuthenticate() {
         try {
             new AutoclosingLdapContext(contextConfiguration(),
-                    configuration.isNegotiateTls()).close();
+                    configuration.getNegotiateTls()).close();
             return true;
         } catch (Exception err) {
             //can't authenticate
@@ -105,14 +106,14 @@ public class LdapAuthenticator {
             }
         } catch (AuthenticationException ae) {
             LOG.debug("{} failed to authenticate. {}", sanitizedUsername, ae);
-        } catch (NamingException err) {
+        } catch (IOException | NamingException err) {
             throw new io.dropwizard.auth.AuthenticationException(String.format("LDAP Authentication failure (username: %s)",
                     sanitizedUsername), err);
         }
         return false;
     }
 
-    private AutoclosingLdapContext buildContext(String sanitizedUsername, String password) throws NamingException {
+    private AutoclosingLdapContext buildContext(String sanitizedUsername, String password) throws IOException, NamingException {
         final String userDN = toUserDN(sanitizedUsername);
 
         final Hashtable<String, String> env = contextConfiguration();
@@ -120,7 +121,7 @@ public class LdapAuthenticator {
         env.put(Context.SECURITY_PRINCIPAL, userDN);
         env.put(Context.SECURITY_CREDENTIALS, password);
 
-        return new AutoclosingLdapContext(env, configuration.isNegotiateTls());
+        return new AutoclosingLdapContext(env, configuration.getNegotiateTls());
     }
 
     private String toUserDN(String username) {
@@ -139,7 +140,7 @@ public class LdapAuthenticator {
             }
         } catch (AuthenticationException ae) {
             LOG.debug("{} failed to authenticate. {}", sanitizedUsername, ae);
-        } catch (NamingException err) {
+        } catch (IOException | NamingException err) {
             throw new io.dropwizard.auth.AuthenticationException(String.format("LDAP Authentication failure (username: %s)",
                     sanitizedUsername), err);
         }

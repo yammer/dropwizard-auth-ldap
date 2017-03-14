@@ -14,7 +14,7 @@ Maven
 <dependency>
     <groupId>com.yammer.dropwizard</groupId>
     <artifactId>dropwizard-auth-ldap</artifactId>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
 </dependency>
 ```
 
@@ -90,10 +90,11 @@ restrictToGroups:
     - bots
 connectTimeout: 500ms
 readTimeout: 500ms
-negotiateTls: true
+negotiateTls: strict
 ```
 
-Note: You can set `groupClassName` to `groupOfNames` and the `groupMembershipAttribute` to `member` to search for group membership using the full userDN.
+* You can set `groupClassName` to `groupOfNames` and the `groupMembershipAttribute` to `member` to search for group membership using the full userDN.
+* `negotiateTls` can be `NONE`, `ATTEMPT`, or `STRICT`. Where `ATTEMPT` tries to negotiate TLS if possible and `STRICT` fails the entire operation if TLS does not succeed in being established. 
 
 CHANGELOG
 ---------
