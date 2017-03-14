@@ -1,6 +1,5 @@
 package com.yammer.dropwizard.authenticator;
 
-import com.codahale.metrics.annotation.Timed;
 import com.google.common.collect.ImmutableSet;
 import io.dropwizard.auth.basic.BasicCredentials;
 import org.slf4j.Logger;
@@ -97,7 +96,6 @@ public class LdapAuthenticator {
         return userName;
     }
 
-    @Timed
     public boolean authenticate(BasicCredentials credentials) throws io.dropwizard.auth.AuthenticationException {
         final String sanitizedUsername = sanitizeEntity(credentials.getUsername());
         try {
@@ -127,8 +125,7 @@ public class LdapAuthenticator {
     private String toUserDN(String username) {
         return String.format("%s=%s,%s", configuration.getUserNameAttribute(), username, configuration.getUserFilter());
     }
-
-    @Timed
+    
     public Optional<User> authenticateAndReturnPermittedGroups(BasicCredentials credentials) throws io.dropwizard.auth.AuthenticationException {
         final String sanitizedUsername = sanitizeEntity(credentials.getUsername());
         try {
