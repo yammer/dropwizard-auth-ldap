@@ -1,3 +1,7 @@
+1.0.4 - March 14, 2017
+---
+* `negotiateTls` can be `NONE`, `ATTEMPT`, or `STRICT`. Where `ATTEMPT` tries to negotiate TLS if possible and `STRICT` fails the entire operation if TLS does not succeed in being established. 
+
 1.0.3 - Nov. 26, 2016
 ---
 * `negotiateTls` controls whether or not the Ldap connection tries to negotiate TLS

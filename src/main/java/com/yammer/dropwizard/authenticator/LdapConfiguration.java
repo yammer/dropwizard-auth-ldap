@@ -56,7 +56,9 @@ public class LdapConfiguration {
     @Valid
     private Set<String> restrictToGroups = Sets.newHashSet();
 
-    private boolean negotiateTls = true;
+    @NotNull
+    @Valid
+    private TlsOption negotiateTls = TlsOption.NONE;
 
     public URI getUri() {
         return uri;
@@ -157,11 +159,11 @@ public class LdapConfiguration {
         return this;
     }
 
-    public boolean isNegotiateTls() {
+    public TlsOption getNegotiateTls() {
         return negotiateTls;
     }
 
-    public void setNegotiateTls(boolean negotiateTls) {
+    public void setNegotiateTls(TlsOption negotiateTls) {
         this.negotiateTls = negotiateTls;
     }
 }
