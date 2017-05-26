@@ -1,3 +1,8 @@
+1.0.5 - May 26, 2017
+---
+* [groupOfUniqueNames Filtering](https://github.com/yammer/dropwizard-auth-ldap/pull/20) Thanks @ajbrown
+* [Dropwizard 1.1.1](https://github.com/dropwizard/dropwizard/releases/tag/v1.1.1)
+
 1.0.4 - March 14, 2017
 ---
 * `negotiateTls` can be `NONE`, `ATTEMPT`, or `STRICT`. Where `ATTEMPT` tries to negotiate TLS if possible and `STRICT` fails the entire operation if TLS does not succeed in being established. 
