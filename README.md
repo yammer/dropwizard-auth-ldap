@@ -93,8 +93,13 @@ readTimeout: 500ms
 negotiateTls: strict
 ```
 
-* You can set `groupClassName` to `groupOfNames` and the `groupMembershipAttribute` to `member` to search for group membership using the full userDN.
-* `negotiateTls` can be `NONE`, `ATTEMPT`, or `STRICT`. Where `ATTEMPT` tries to negotiate TLS if possible and `STRICT` fails the entire operation if TLS does not succeed in being established. 
+* Group filtering is done by default using only the username provided. The full DN of the user's account will be used
+if `groupClassName` and `groupMembershipAttribute` are set to either `groupOfNames` and `member` or `groupOfUniqueNames` 
+and `uniqueMember`.
+* `negotiateTls` can be `NONE`, `ATTEMPT`, or `STRICT`. Where `ATTEMPT` tries to negotiate TLS if possible and `STRICT` 
+fails the entire operation if TLS does not succeed in being established. Note that you may see exceptions related to the
+initial TLS negotiation attempt in your logs if negotation fails.
+
 
 CHANGELOG
 ---------
