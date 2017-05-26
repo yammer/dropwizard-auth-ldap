@@ -1,9 +1,9 @@
 package com.yammer.dropwizard.authenticator;
 
-import com.google.common.collect.ImmutableSet;
-import io.dropwizard.auth.basic.BasicCredentials;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.io.IOException;
+import java.util.Hashtable;
+import java.util.Optional;
+import java.util.Set;
 
 import javax.naming.AuthenticationException;
 import javax.naming.Context;
@@ -11,10 +11,11 @@ import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
 import javax.naming.directory.SearchControls;
 import javax.naming.directory.SearchResult;
-import java.io.IOException;
-import java.util.Hashtable;
-import java.util.Optional;
-import java.util.Set;
+
+import com.google.common.collect.ImmutableSet;
+import io.dropwizard.auth.basic.BasicCredentials;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -53,7 +54,8 @@ public class LdapAuthenticator {
             groupFilter.append(String.format("(%s=%s)", configuration.getGroupNameAttribute(), sanitizedGroup));
         }
 
-        final String filter = String.format("(&(%s=%s)(|%s))", configuration.getGroupMembershipAttribute(), sanitizedUsername, groupFilter.toString());
+        final String filter = String.format("(&(%s=%s)(|%s))", configuration.getGroupMembershipAttribute(),
+            userNameBaseOnGroupClass(sanitizedUsername), groupFilter.toString());
 
         final NamingEnumeration<SearchResult> result = context.search(configuration.getGroupFilter(), filter, new SearchControls());
         try {
@@ -89,11 +91,13 @@ public class LdapAuthenticator {
     }
 
     private String userNameBaseOnGroupClass(String userName) {
-        if ("groupOfNames".equalsIgnoreCase(configuration.getGroupClassName())
-                && "member".equalsIgnoreCase(configuration.getGroupMembershipAttribute())) {
-            return toUserDN(userName);
-        }
-        return userName;
+        return groupRequiresDn(configuration.getGroupClassName(), configuration.getGroupMembershipAttribute()) ?
+            toUserDN(userName) : userName;
+    }
+
+    private static boolean groupRequiresDn(final String className, final String membershipAttr) {
+        return ("groupOfNames".equalsIgnoreCase(className) && "member".equalsIgnoreCase(membershipAttr))
+            || ("groupOfUniqueNames".equalsIgnoreCase(className) && "uniqueMember".equalsIgnoreCase(membershipAttr));
     }
 
     public boolean authenticate(BasicCredentials credentials) throws io.dropwizard.auth.AuthenticationException {
