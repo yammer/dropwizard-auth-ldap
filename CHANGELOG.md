@@ -1,3 +1,7 @@
+Next
+---
+* [Dropwizard 1.1.2](https://github.com/dropwizard/dropwizard/releases/tag/v1.1.2)
+
 1.0.5 - May 26, 2017
 ---
 * [groupOfUniqueNames Filtering](https://github.com/yammer/dropwizard-auth-ldap/pull/20) Thanks @ajbrown
