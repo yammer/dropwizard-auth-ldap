@@ -1,6 +1,6 @@
 Next
 ---
-* [Dropwizard 1.1.2](https://github.com/dropwizard/dropwizard/releases/tag/v1.1.2)
+* [Dropwizard 1.1.3](https://github.com/dropwizard/dropwizard/releases/tag/v1.1.3)
 
 1.0.5 - May 26, 2017
 ---
